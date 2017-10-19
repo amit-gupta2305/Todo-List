@@ -29,4 +29,20 @@ describe('Todo/Post',()=>{
     } )
   })
 
+});
+
+it('it should not create a new todo',(done)=>{
+
+  request(app).
+  post('/todos').
+  send({}).
+  expect(400)
+  .end((err,res)=>{
+    if(err){
+      return done(err);
+    }
+    todo.find().then((todos)=>{
+      expect(todos.length).toBe(0)
+    }).catch((e)=>done(e));
+  } )
 })

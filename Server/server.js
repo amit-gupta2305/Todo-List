@@ -24,6 +24,13 @@ app.post('/todos',(req,res)=>{
  })
 });
 
+app.get('/todos',(req,res)=>{
+  todo.find().then((todos)=>{
+    res.send({todos})
+  },(e)=>{
+    console.log('Unable to send todo',e);
+  })
+})
 app.listen(3000,()=>{
   console.log('Listening to port 3000');
 })
