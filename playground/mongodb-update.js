@@ -15,7 +15,17 @@ const {MongoClient,ObjectID} = require('mongodb');
    }).then((count)=>{
      console.log(count);
    })
-
+  
+  // db.collection('Todos').insertOne({
+  //   text:'done with lunch',
+  //   completed:true
+  // },(err,res)=>{
+  //   if(err){
+  //     return console.log('unable to insert record');
+  //   }
+  //   console.log(res);
+  // })
+  //
 
    db.close();
  })
