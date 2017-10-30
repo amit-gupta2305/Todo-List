@@ -5,8 +5,12 @@ const {ObjectID} = require('mongodb');
 const app = require('./../server.js');
 const {todo} = require('./../models/Todo');
 
-const todos = [{text:'first text'},
-{text:'second text'}]
+const todos = [{
+  _id:new ObjectID(),
+  text:'first text'
+},
+{_id:new ObjectID(),
+  text:'second text'}]
 
 beforeEach((done)=>{
   todo.remove({}).then(()=>{
@@ -67,5 +71,29 @@ describe('GET/Todos',()=>{
     expect((res)=>{
       expect(res.body.todos.length).toBe(2)
     }).end(done());
+  })
+})
+
+describe('GET /todos/:id',()=>{
+  it('should get using the id',(done)=>{
+    request(app).
+    get(`todos/${todos[0]._id.toHexString()}`).
+    expect(200).
+    expect((res)=>{
+      expect(res.body.todos[0].text).toBe(todos[0].text);
+    }).end(done())
+  })
+
+  it('should return 404 if todo not found',(done)=>{
+    request(app).
+    get(`todos/${new ObjectID().toHexString()}`).
+    expect(404).
+    end(done())
+  })
+  it('should return 404 for non-object id',(done)=>{
+    request(app).
+    get('/todos/123').
+    expect(404).
+    end(done());
   })
 })
